@@ -1,0 +1,23 @@
+Introduction du projet
+Consignes: 
+utiliser des outils comme iceScrum
+Planning ex: analyse/frontend/backend/api
+doc/notes pour les activités qui produissent pas de contenu
+commentaires qui expliquent l'intention
+
+PROJET MEDIACENTER:
+Fichiers de petite taille
+Importer et suprimmer des fichiers
+protocole en commun
+P2P-media fragmenté
+
+LIVRABLES:
+usage de l'IA docummenté
+maîtriser le code
+
+ANALYSE:
+US
+tests d'acceptance
+maquette
+
+Création du dépot GITHUB pour le projet
