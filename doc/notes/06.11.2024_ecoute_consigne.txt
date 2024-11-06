@@ -33,3 +33,9 @@ A partir de ce feature les US seront créés
 Tests presentant le frame correspandant a ce qui sera attendu
 
 
+
+
+USERSTORIES
+FEATEURE: 1 GERER LES CONTENU LOCAUX
+
+
