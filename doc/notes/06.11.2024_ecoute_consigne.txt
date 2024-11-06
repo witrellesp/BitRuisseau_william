@@ -2,7 +2,7 @@ Introduction du projet
 Consignes: 
 utiliser des outils comme iceScrum
 Planning ex: analyse/frontend/backend/api
-doc/notes pour les activités qui produissent pas de contenu
+doc/notes pour les activités qui produissent pas de contenus
 commentaires qui expliquent l'intention
 
 PROJET MEDIACENTER:
@@ -21,3 +21,15 @@ tests d'acceptance
 maquette
 
 Création du dépot GITHUB pour le projet
+
+
+ICESCRUM
+Création du projet
+Analyse de l'application à traver les users story
+Rappelle de comment créer les users story
+COMMENT CREER UNE FEATURE?
+J'utilise le mediacenter pour.. consulter les médias à disposition dans la comunauté/upload des fichiers/supression des fichiers/transférer des contenus/lire les contenus médias
+A partir de ce feature les US seront créés
+Tests presentant le frame correspandant a ce qui sera attendu
+
+
