@@ -38,4 +38,7 @@ Tests presentant le frame correspandant a ce qui sera attendu
 USERSTORIES
 FEATEURE: 1 GERER LES CONTENU LOCAUX
 
+Onglet pour pouvoir communiquer
+mdp:flowerfancy260
+
 
