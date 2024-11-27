@@ -1,0 +1,6 @@
+Consignes par rapport au rapport du projet
+/normes de codage
+/release vers 1.0.0 vers le github pas de variables globales
+/ commenter le code
+/ comentaires pour séparer le code au lieu des lignes blanches
+/journal de travail des modifications
