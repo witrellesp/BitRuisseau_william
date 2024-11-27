@@ -7,3 +7,5 @@ Consignes par rapport au rapport du projet
 
 
 -Maquettes bas qualité dans doc\maquettes\fait_a_la_main
+
+-Mise en place du jdt
