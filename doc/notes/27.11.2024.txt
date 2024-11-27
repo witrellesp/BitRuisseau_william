@@ -4,3 +4,6 @@ Consignes par rapport au rapport du projet
 / commenter le code
 / comentaires pour séparer le code au lieu des lignes blanches
 /journal de travail des modifications
+
+
+-Maquettes bas qualité dans doc\maquettes\fait_a_la_main
