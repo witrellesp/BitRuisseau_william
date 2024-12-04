@@ -1,2 +1,3 @@
 Finir les users stories ainsi que leur tests correspondants
 Erreur dans le temps mis dans le message du commit
+Correction du message du commit
