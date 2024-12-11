@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 
 namespace BitRuisseau_william
 {
@@ -58,7 +59,7 @@ namespace BitRuisseau_william
                         Console.WriteLine("Erreur : Le type de média n'est pas valide.");
                     }
 
-                    Media newMedia = new Media(fileName, fileSize ,mediaType);
+                    Media newMedia = new Media(fileName, fileSize, mediaType);
 
                     mediatheque.Medias.Add(newMedia);
 
@@ -96,33 +97,45 @@ namespace BitRuisseau_william
 
         private void playFile_Click(object sender, EventArgs e)
         {
-            if (isPlaying)
+
+            int selectedIndex = listView_myFiles.SelectedItems[0].Index;
+            string fileSelectedPath = Files[selectedIndex];
+
+            string type = Path.GetExtension(fileSelectedPath);
+
+
+            if (type == ".mp3")
             {
-                player.controls.pause();
-                playFile.Text = "▶";
+
+                if (isPlaying)
+                {
+                    player.controls.pause();
+                    playFile.Text = "▶";
+                }
+                if (player.URL != fileSelectedPath)
+                {
+                    player.URL = fileSelectedPath;
+                    player.controls.play();
+                    playFile.Text = "❚❚";
+                }
+
             }
             else
             {
                 try
                 {
-                    if (listView_myFiles.SelectedItems.Count > 0)
-                    {
-                        int selectedIndex = listView_myFiles.SelectedItems[0].Index;
-                        string fileSelectedPath = Files[selectedIndex];
 
-                        if (player.URL != fileSelectedPath)
-                        {
-                            player.URL = fileSelectedPath;
-                        }
-
-                      
-                        player.controls.play();
-                        playFile.Text = "❚❚";
-                    }
-                    else
+                    // Exécuter le fichier avec Process.Start
+                    Process.Start(new ProcessStartInfo
                     {
-                        MessageBox.Show("Veuillez sélectionner un fichier à lire.", "Erreur");
-                    }
+                        FileName = fileSelectedPath,
+                        UseShellExecute = true
+                    });
+
+                    //else
+                    //{
+                    //    MessageBox.Show("Veuillez sélectionner un fichier à lire.", "Erreur");
+                    //}
 
                 }
                 catch (Exception ex)
