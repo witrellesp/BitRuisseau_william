@@ -28,21 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBoxMesTitres = new GroupBox();
             title = new Label();
             AddTitle = new Button();
             Network = new Button();
             DropTitle = new Button();
+            listView_myFiles = new ListView();
+            playFile = new Button();
             SuspendLayout();
-            // 
-            // groupBoxMesTitres
-            // 
-            groupBoxMesTitres.Location = new Point(12, 80);
-            groupBoxMesTitres.Name = "groupBoxMesTitres";
-            groupBoxMesTitres.Size = new Size(580, 318);
-            groupBoxMesTitres.TabIndex = 0;
-            groupBoxMesTitres.TabStop = false;
-            groupBoxMesTitres.Text = "Mes titres";
             // 
             // title
             // 
@@ -62,10 +54,11 @@
             AddTitle.TabIndex = 2;
             AddTitle.Text = "Ajouter titre";
             AddTitle.UseVisualStyleBackColor = true;
+            AddTitle.Click += AddTitle_Click;
             // 
             // Network
             // 
-            Network.Location = new Point(663, 306);
+            Network.Location = new Point(638, 306);
             Network.Name = "Network";
             Network.Size = new Size(75, 23);
             Network.TabIndex = 3;
@@ -80,17 +73,38 @@
             DropTitle.TabIndex = 4;
             DropTitle.Text = "Drop titre";
             DropTitle.UseVisualStyleBackColor = true;
+            DropTitle.Click += DropTitle_Click;
+            // 
+            // listView_myFiles
+            // 
+            listView_myFiles.Location = new Point(12, 80);
+            listView_myFiles.Name = "listView_myFiles";
+            listView_myFiles.Size = new Size(594, 328);
+            listView_myFiles.TabIndex = 6;
+            listView_myFiles.UseCompatibleStateImageBehavior = false;
+            listView_myFiles.SelectedIndexChanged += listView_myFiles_SelectedIndexChanged;
+            // 
+            // playFile
+            // 
+            playFile.Location = new Point(638, 177);
+            playFile.Name = "playFile";
+            playFile.Size = new Size(75, 23);
+            playFile.TabIndex = 7;
+            playFile.Text = "▶";
+            playFile.UseVisualStyleBackColor = true;
+            playFile.Click += playFile_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(playFile);
+            Controls.Add(listView_myFiles);
             Controls.Add(DropTitle);
             Controls.Add(Network);
             Controls.Add(AddTitle);
             Controls.Add(title);
-            Controls.Add(groupBoxMesTitres);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -99,11 +113,11 @@
         }
 
         #endregion
-
-        private GroupBox groupBoxMesTitres;
         private Label title;
         private Button AddTitle;
         private Button Network;
         private Button DropTitle;
+        private ListView listView_myFiles;
+        private Button playFile;
     }
 }
