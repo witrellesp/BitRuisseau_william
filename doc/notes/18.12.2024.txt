@@ -1,0 +1,4 @@
+Remarques de l'enseignant: attention au chemin absolu au moment d'importer
+
+Design spécifiques:
+Changements décidé lors le développement.
