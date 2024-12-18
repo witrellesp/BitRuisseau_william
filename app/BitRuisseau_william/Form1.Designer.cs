@@ -34,6 +34,7 @@
             DropTitle = new Button();
             listView_myFiles = new ListView();
             playFile = new Button();
+            stopFile = new Button();
             SuspendLayout();
             // 
             // title
@@ -48,7 +49,7 @@
             // 
             // AddTitle
             // 
-            AddTitle.Location = new Point(638, 47);
+            AddTitle.Location = new Point(531, 81);
             AddTitle.Name = "AddTitle";
             AddTitle.Size = new Size(101, 23);
             AddTitle.TabIndex = 2;
@@ -58,7 +59,7 @@
             // 
             // Network
             // 
-            Network.Location = new Point(638, 306);
+            Network.Location = new Point(531, 340);
             Network.Name = "Network";
             Network.Size = new Size(75, 23);
             Network.TabIndex = 3;
@@ -67,7 +68,7 @@
             // 
             // DropTitle
             // 
-            DropTitle.Location = new Point(638, 80);
+            DropTitle.Location = new Point(531, 114);
             DropTitle.Name = "DropTitle";
             DropTitle.Size = new Size(75, 23);
             DropTitle.TabIndex = 4;
@@ -77,16 +78,16 @@
             // 
             // listView_myFiles
             // 
-            listView_myFiles.Location = new Point(12, 80);
+            listView_myFiles.Location = new Point(17, 81);
             listView_myFiles.Name = "listView_myFiles";
-            listView_myFiles.Size = new Size(594, 328);
+            listView_myFiles.Size = new Size(488, 328);
             listView_myFiles.TabIndex = 6;
             listView_myFiles.UseCompatibleStateImageBehavior = false;
             listView_myFiles.SelectedIndexChanged += listView_myFiles_SelectedIndexChanged;
             // 
             // playFile
             // 
-            playFile.Location = new Point(638, 177);
+            playFile.Location = new Point(531, 211);
             playFile.Name = "playFile";
             playFile.Size = new Size(75, 23);
             playFile.TabIndex = 7;
@@ -94,11 +95,21 @@
             playFile.UseVisualStyleBackColor = true;
             playFile.Click += playFile_Click;
             // 
+            // stopFile
+            // 
+            stopFile.Location = new Point(530, 261);
+            stopFile.Name = "stopFile";
+            stopFile.Size = new Size(75, 23);
+            stopFile.TabIndex = 8;
+            stopFile.Text = "❚❚";
+            stopFile.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(644, 450);
+            Controls.Add(stopFile);
             Controls.Add(playFile);
             Controls.Add(listView_myFiles);
             Controls.Add(DropTitle);
@@ -119,5 +130,6 @@
         private Button DropTitle;
         private ListView listView_myFiles;
         private Button playFile;
+        private Button stopFile;
     }
 }
