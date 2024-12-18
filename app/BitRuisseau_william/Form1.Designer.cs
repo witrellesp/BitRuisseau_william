@@ -35,6 +35,8 @@
             listView_myFiles = new ListView();
             playFile = new Button();
             stopFile = new Button();
+            radioButton_Online = new RadioButton();
+            listView1 = new ListView();
             SuspendLayout();
             // 
             // title
@@ -59,12 +61,13 @@
             // 
             // Network
             // 
-            Network.Location = new Point(531, 340);
+            Network.Location = new Point(531, 374);
             Network.Name = "Network";
             Network.Size = new Size(75, 23);
             Network.TabIndex = 3;
             Network.Text = "Réseau";
             Network.UseVisualStyleBackColor = true;
+            Network.Click += Network_Click;
             // 
             // DropTitle
             // 
@@ -97,18 +100,40 @@
             // 
             // stopFile
             // 
-            stopFile.Location = new Point(530, 261);
+            stopFile.Location = new Point(531, 240);
             stopFile.Name = "stopFile";
             stopFile.Size = new Size(75, 23);
             stopFile.TabIndex = 8;
             stopFile.Text = "❚❚";
             stopFile.UseVisualStyleBackColor = true;
             // 
+            // radioButton_Online
+            // 
+            radioButton_Online.AutoSize = true;
+            radioButton_Online.Location = new Point(531, 349);
+            radioButton_Online.Name = "radioButton_Online";
+            radioButton_Online.Size = new Size(67, 19);
+            radioButton_Online.TabIndex = 9;
+            radioButton_Online.TabStop = true;
+            radioButton_Online.Text = "En ligne";
+            radioButton_Online.UseVisualStyleBackColor = true;
+            radioButton_Online.CheckedChanged += radioButton_Online_CheckedChanged;
+            // 
+            // listView1
+            // 
+            listView1.Location = new Point(679, 81);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(121, 328);
+            listView1.TabIndex = 10;
+            listView1.UseCompatibleStateImageBehavior = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(644, 450);
+            ClientSize = new Size(820, 450);
+            Controls.Add(listView1);
+            Controls.Add(radioButton_Online);
             Controls.Add(stopFile);
             Controls.Add(playFile);
             Controls.Add(listView_myFiles);
@@ -131,5 +156,7 @@
         private ListView listView_myFiles;
         private Button playFile;
         private Button stopFile;
+        private RadioButton radioButton_Online;
+        private ListView listView1;
     }
 }

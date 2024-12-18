@@ -106,7 +106,11 @@ namespace BitRuisseau_william
             }
         }
 
-
+        /// <summary>
+        /// Bouton pour jouer le media
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playFile_Click(object sender, EventArgs e)
         {
 
@@ -131,14 +135,14 @@ namespace BitRuisseau_william
 
             if (type == ".mp3")
             {
-                if (player.URL != fileSelectedPath) 
+                if (player.URL != fileSelectedPath)
                 {
                     player.URL = fileSelectedPath;
                 }
 
-                player.controls.play(); 
+                player.controls.play();
 
-              
+
             }
             else
             {
@@ -163,7 +167,11 @@ namespace BitRuisseau_william
             isPlaying = !isPlaying;
 
         }
-
+        /// <summary>
+        /// Bouton pour arreter le media
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void stopFile_Click(object sender, EventArgs e)
         {
             player.controls.stop();
@@ -176,6 +184,25 @@ namespace BitRuisseau_william
 
         private void listView_myFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void radioButton_Online_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_Online.Checked)
+            {
+                mediatheque.IsAvailable = true;
+            }
+            else if (!radioButton_Online.Checked)
+            {
+                mediatheque.IsAvailable = false;
+            }
+
+        }
+
+        private void Network_Click(object sender, EventArgs e)
+        {
+
 
         }
     }
