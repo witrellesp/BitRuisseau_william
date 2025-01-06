@@ -10,14 +10,14 @@ namespace BitRuisseau_william
     {
         public Media(string filename, long size, MediaTypes mediaType)
         {
-            this.Filename = filename;
+            this.FileName = filename;
 
             this.Size = size / 1024;
 
             this.MediaType = mediaType;
         }
 
-        public string Filename { get; set; }
+        public string FileName { get; set; }
         public long Size { get; set; } // Taille du fichier en Octets
 
         public MediaTypes MediaType { get; set; }

@@ -4,6 +4,7 @@ using System.Text.Json;
 using Backend;
 using Backend.Protocol;
 using Microsoft.Extensions.Logging;
+using BitRuisseau_william.Protocole;
 
 
 namespace BitRuisseau_william
@@ -21,14 +22,7 @@ namespace BitRuisseau_william
         private readonly ILogger _logger;
 
 
-        private Mediatheque mediatheque = new Mediatheque()
-        {
-            IsAvailable = false,
-            Medias = new List<Media>(),
-            DisplayName ="William Mediatheque"
-
-        };
-
+        private Mediatheque mediatheque;
 
 
         public Form1()
@@ -36,21 +30,60 @@ namespace BitRuisseau_william
             InitializeComponent();
 
             // Initialisation du logger
-            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var loggerFactory = LoggerFactory.Create(
+           builder => builder
+          .AddProvider(new RichTextBoxLoggerProvider(txtConsole))
+          .SetMinimumLevel(LogLevel.Debug)
+           );
+
+
+            //var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             _logger = loggerFactory.CreateLogger<Form1>();
 
             // Initialisation de l'agent MQTT
-            string broker = "broker.hivemq.com"; // Adresse du broker MQTT
+            string broker = "mqtt.blue.section-inf.ch"; // Adresse du broker MQTT
+
             _agent = new Agent(loggerFactory, broker, OnMessageReceived);
             _agent.Start();
             this.Text = $@"House {_agent.NodeId}";
 
             Console.WriteLine("Agent MQTT démarré.");
+
+            this.mediatheque = new Mediatheque()
+            {
+                IsAvailable = false,
+                Medias = new List<Media>(),
+                DisplayName = "William Mediatheque"
+
+            };
+
+            // Envoi de la requête MEDIA_STATUS_REQUEST après initialisation
+            SendMediaStatusRequest();
+
+        }
+        /// <summary>
+        /// Envoie un message MEDIA_STATUS_REQUEST aux autres nœuds du réseau.
+        /// </summary>
+        private void SendMediaStatusRequest()
+        {
+            Console.WriteLine("Envoi de MEDIA_STATUS_REQUEST à tous les nœuds...");
+
+            // Création de l'enveloppe pour le message MEDIA_STATUS_REQUEST
+            var envelope = new Envelope(
+                senderId: _agent.NodeId,    // Identifiant unique de l'expéditeur
+                type: MessageType.MEDIA_STATUS_REQUEST, // Type de message
+                message: string.Empty        // Pas de données à envoyer
+            );
+
+            // Envoi du message via l'agent MQTT
+            _agent.Send(envelope);
+
+            Console.WriteLine("MEDIA_STATUS_REQUEST envoyé.");
         }
 
         private void OnMessageReceived(Envelope envelope)
         {
-      
+
             Console.WriteLine($"Message reçu : {envelope.ToString()}");
 
             switch (envelope.Type)
@@ -71,14 +104,9 @@ namespace BitRuisseau_william
         private void HandleMediaStatusRequest()
         {
             Console.WriteLine("MEDIA_STATUS_REQUEST reçu. Envoi de la médiathèque...");
-            var mediathequeToSend = new Mediatheque
-            {
-                IsAvailable = mediatheque.IsAvailable,
-                DisplayName = mediatheque.DisplayName,
-                Medias = mediatheque.Medias
-            };
+           
 
-            string payload = JsonSerializer.Serialize(mediathequeToSend);
+            string payload = JsonSerializer.Serialize(this.mediatheque);
 
             var envelope = new Envelope(
                 senderId: _agent.NodeId,
@@ -270,6 +298,34 @@ namespace BitRuisseau_william
             player.controls.stop();
         }
 
+        private void Online_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Online.Checked) 
+            {
+                mediatheque.IsAvailable = true;
+
+             
+                string payload = JsonSerializer.Serialize(this.mediatheque);
+
+                Envelope envelope = new Envelope(
+                    senderId: _agent.NodeId,          // Identifiant unique de l'expéditeur
+                    type: MessageType.MEDIA_STATUS,  // Type de message
+                    message: payload                 // Données sérialisés
+                );
+
+             
+                _agent.Send(envelope);
+
+                Console.WriteLine("MEDIA_STATUS envoyé.");
+            }
+            else 
+            {
+                mediatheque.IsAvailable = false;
+
+                Console.WriteLine("La médiathèque est maintenant hors ligne.");
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -282,34 +338,7 @@ namespace BitRuisseau_william
 
         private void radioButton_Online_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_Online.Checked)
-            {
-                mediatheque.IsAvailable = true;
-
-                var mediathequeToSend = new Mediatheque
-                {
-                    IsAvailable = mediatheque.IsAvailable,
-                    DisplayName = mediatheque.DisplayName,
-                    Medias = mediatheque.Medias
-                };
-
-                string payload = JsonSerializer.Serialize(mediathequeToSend);
-
-                Envelope envelope = new Envelope(
-                    senderId: _agent.NodeId,          // Identifiant unique de l'expéditeur
-                    type: MessageType.MEDIA_STATUS,  // Type de message
-                    message: payload                 // Données sérialisées
-                );
-
-                // Envoi de l'enveloppe via l'agent
-                _agent.Send(envelope);
-
-                Console.WriteLine("MEDIA_STATUS envoyé.");
-            }
-            else if (!radioButton_Online.Checked)
-            {
-                mediatheque.IsAvailable = false;
-            }
+           
 
         }
 

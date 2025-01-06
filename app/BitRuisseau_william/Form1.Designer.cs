@@ -35,8 +35,9 @@
             listView_myFiles = new ListView();
             playFile = new Button();
             stopFile = new Button();
-            radioButton_Online = new RadioButton();
             listViewRemoteMediatheques = new ListView();
+            txtConsole = new RichTextBox();
+            Online = new CheckBox();
             SuspendLayout();
             // 
             // title
@@ -88,7 +89,7 @@
             listView_myFiles.BackColor = Color.RosyBrown;
             listView_myFiles.Location = new Point(17, 81);
             listView_myFiles.Name = "listView_myFiles";
-            listView_myFiles.Size = new Size(488, 328);
+            listView_myFiles.Size = new Size(258, 328);
             listView_myFiles.TabIndex = 6;
             listView_myFiles.UseCompatibleStateImageBehavior = false;
             listView_myFiles.SelectedIndexChanged += listView_myFiles_SelectedIndexChanged;
@@ -113,18 +114,6 @@
             stopFile.Text = "❚❚";
             stopFile.UseVisualStyleBackColor = true;
             // 
-            // radioButton_Online
-            // 
-            radioButton_Online.AutoSize = true;
-            radioButton_Online.Location = new Point(541, 349);
-            radioButton_Online.Name = "radioButton_Online";
-            radioButton_Online.Size = new Size(67, 19);
-            radioButton_Online.TabIndex = 9;
-            radioButton_Online.TabStop = true;
-            radioButton_Online.Text = "En ligne";
-            radioButton_Online.UseVisualStyleBackColor = true;
-            radioButton_Online.CheckedChanged += radioButton_Online_CheckedChanged;
-            // 
             // listViewRemoteMediatheques
             // 
             listViewRemoteMediatheques.Location = new Point(679, 81);
@@ -133,14 +122,34 @@
             listViewRemoteMediatheques.TabIndex = 10;
             listViewRemoteMediatheques.UseCompatibleStateImageBehavior = false;
             // 
+            // txtConsole
+            // 
+            txtConsole.Location = new Point(304, 81);
+            txtConsole.Name = "txtConsole";
+            txtConsole.Size = new Size(192, 328);
+            txtConsole.TabIndex = 11;
+            txtConsole.Text = "";
+            // 
+            // Online
+            // 
+            Online.AutoSize = true;
+            Online.Location = new Point(541, 324);
+            Online.Name = "Online";
+            Online.Size = new Size(68, 19);
+            Online.TabIndex = 12;
+            Online.Text = "En ligne";
+            Online.UseVisualStyleBackColor = true;
+            Online.CheckedChanged += Online_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(820, 450);
+            Controls.Add(Online);
+            Controls.Add(txtConsole);
             Controls.Add(listViewRemoteMediatheques);
-            Controls.Add(radioButton_Online);
             Controls.Add(stopFile);
             Controls.Add(playFile);
             Controls.Add(listView_myFiles);
@@ -163,7 +172,8 @@
         private ListView listView_myFiles;
         private Button playFile;
         private Button stopFile;
-        private RadioButton radioButton_Online;
         private ListView listViewRemoteMediatheques;
+        private RichTextBox txtConsole;
+        private CheckBox Online;
     }
 }

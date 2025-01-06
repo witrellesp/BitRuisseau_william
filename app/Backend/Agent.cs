@@ -32,7 +32,7 @@ public class Agent
 
     public Agent(ILoggerFactory loggerFactory, string broker, Action<Envelope>? onMessageReceived=null,bool isMotherNature=false,string idPrefix="")
     {
-        _logger = loggerFactory.CreateLogger($"Powercher Agent {NodeId}");
+        _logger = loggerFactory.CreateLogger($"Mediaplayer Agent {NodeId}");
 
         _statistics = new(_nodes);
 
@@ -70,6 +70,7 @@ public class Agent
             default:
                 _logger.LogInformation("Received message {message}",envelope);
                 break;
+
         }
         
         _statistics.MessagesReceived++;

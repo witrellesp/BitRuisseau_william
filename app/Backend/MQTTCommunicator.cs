@@ -11,7 +11,7 @@ namespace Backend;
 
 public class MqttCommunicator : ICommunicator
 {
-    private const string DefaultTopic = "media/player";
+    private const string DefaultTopic = "powercher";
     private readonly string _brokerIp;
     private IMqttClient _mqttClient;
     private readonly ILogger _logger;
@@ -54,6 +54,10 @@ public class MqttCommunicator : ICommunicator
         {
             Connect();
         }
+
+        var finalTopic = topic ?? _topic;
+     
+
         var applicationMessage = new MqttApplicationMessageBuilder()
             .WithTopic(topic??_topic)
             .WithRetainFlag(_retain)
