@@ -11,7 +11,7 @@ namespace Backend;
 
 public class MqttCommunicator : ICommunicator
 {
-    private const string DefaultTopic = "powercher";
+    private const string DefaultTopic = "media/player";
     private readonly string _brokerIp;
     private IMqttClient _mqttClient;
     private readonly ILogger _logger;
