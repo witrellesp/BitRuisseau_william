@@ -17,6 +17,9 @@ namespace BitRuisseau_william
 
         private Dictionary<Media, string> mediaPaths = new Dictionary<Media, string>();
 
+        private Dictionary<string, Mediatheque> receivedMediatheques = new Dictionary<string, Mediatheque>();
+
+
         private Agent _agent;
 
         private readonly ILogger _logger;
@@ -83,7 +86,11 @@ namespace BitRuisseau_william
 
         private void OnMessageReceived(Envelope envelope)
         {
-
+            if (envelope.SenderId == _agent.NodeId)
+            {
+                _logger.LogInformation("Ignorer mon prope message");
+                return;
+            }
             Console.WriteLine($"Message reçu : {envelope.ToString()}");
 
             switch (envelope.Type)
@@ -104,7 +111,7 @@ namespace BitRuisseau_william
         private void HandleMediaStatusRequest()
         {
             Console.WriteLine("MEDIA_STATUS_REQUEST reçu. Envoi de la médiathèque...");
-           
+
 
             string payload = JsonSerializer.Serialize(this.mediatheque);
 
@@ -128,23 +135,49 @@ namespace BitRuisseau_william
                 {
                     Console.WriteLine($"Médiathèque de {mediathequeReceived.DisplayName} reçue avec {mediathequeReceived.Medias.Count} médias.");
 
+
+                    receivedMediatheques[mediathequeReceived.DisplayName] = mediathequeReceived;
+
                     // Mettre à jour l'interface utilisateur
                     listViewRemoteMediatheques.Invoke(new MethodInvoker(() =>
                     {
                         var listViewItem = new ListViewItem(new[]
                         {
-                            mediathequeReceived.DisplayName,
-                            mediathequeReceived.Medias.Count.ToString()
+                           mediathequeReceived.DisplayName,
+                           mediathequeReceived.Medias.Count.ToString()
                         });
                         listViewRemoteMediatheques.Items.Add(listViewItem);
                     }));
                 }
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine($"Erreur lors de la désérialisation de la médiathèque : {ex.Message}");
             }
         }
+        private void listViewRemoteMediatheques_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewRemoteMediatheques.SelectedItems.Count > 0)
+            {
+
+                string selectedMediathequeName = listViewRemoteMediatheques.SelectedItems[0].SubItems[0].Text;
+
+
+                if (receivedMediatheques.TryGetValue(selectedMediathequeName, out Mediatheque selectedMediatheque))
+                {
+
+                    listView_myFiles.Items.Clear();
+
+                    foreach (var media in selectedMediatheque.Medias)
+                    {
+                        listView_myFiles.Items.Add(media.FileName);
+                    }
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Bouton pour ajouter des medias
@@ -170,7 +203,11 @@ namespace BitRuisseau_william
                 foreach (var file in selectedFiles)
                 {
                     string fileName = Path.GetFileName(file);
-                    long fileSize = file.Length;
+
+                    FileInfo fileInfo = new FileInfo(file);
+                    long fileSize = fileInfo.Length;
+
+
 
                     string fileType = Path.GetExtension(file).TrimStart('.');
 
@@ -300,11 +337,11 @@ namespace BitRuisseau_william
 
         private void Online_CheckedChanged(object sender, EventArgs e)
         {
-            if (Online.Checked) 
+            if (Online.Checked)
             {
                 mediatheque.IsAvailable = true;
 
-             
+
                 string payload = JsonSerializer.Serialize(this.mediatheque);
 
                 Envelope envelope = new Envelope(
@@ -313,12 +350,12 @@ namespace BitRuisseau_william
                     message: payload                 // Données sérialisés
                 );
 
-             
+
                 _agent.Send(envelope);
 
                 Console.WriteLine("MEDIA_STATUS envoyé.");
             }
-            else 
+            else
             {
                 mediatheque.IsAvailable = false;
 
@@ -338,7 +375,7 @@ namespace BitRuisseau_william
 
         private void radioButton_Online_CheckedChanged(object sender, EventArgs e)
         {
-           
+
 
         }
 

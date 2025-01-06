@@ -38,6 +38,7 @@
             listViewRemoteMediatheques = new ListView();
             txtConsole = new RichTextBox();
             Online = new CheckBox();
+            updateMediaplayers = new Button();
             SuspendLayout();
             // 
             // title
@@ -141,12 +142,22 @@
             Online.UseVisualStyleBackColor = true;
             Online.CheckedChanged += Online_CheckedChanged;
             // 
+            // updateMediaplayers
+            // 
+            updateMediaplayers.Location = new Point(679, 415);
+            updateMediaplayers.Name = "updateMediaplayers";
+            updateMediaplayers.Size = new Size(121, 23);
+            updateMediaplayers.TabIndex = 13;
+            updateMediaplayers.Text = "Mettre à jour";
+            updateMediaplayers.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(820, 450);
+            Controls.Add(updateMediaplayers);
             Controls.Add(Online);
             Controls.Add(txtConsole);
             Controls.Add(listViewRemoteMediatheques);
@@ -175,5 +186,6 @@
         private ListView listViewRemoteMediatheques;
         private RichTextBox txtConsole;
         private CheckBox Online;
+        private Button updateMediaplayers;
     }
 }
