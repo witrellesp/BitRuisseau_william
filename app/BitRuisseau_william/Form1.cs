@@ -1,21 +1,32 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Text.Json;
+using Backend;
+using Backend.Protocol;
+using Microsoft.Extensions.Logging;
+
 
 namespace BitRuisseau_william
 {
     public partial class Form1 : Form
     {
+        private MqttCommunicator _mqttCommunicator;
         WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
         private bool isPlaying = false; // Indique si le lecteur est en train de lire
-        //public List<string> Files { get; set; } = new List<string>(); 
+
         private Dictionary<Media, string> mediaPaths = new Dictionary<Media, string>();
 
+        private Agent _agent;
 
+        private readonly ILogger _logger;
 
 
         private Mediatheque mediatheque = new Mediatheque()
         {
-            Medias = new List<Media>()
+            IsAvailable = false,
+            Medias = new List<Media>(),
+            DisplayName ="William Mediatheque"
+
         };
 
 
@@ -23,6 +34,88 @@ namespace BitRuisseau_william
         public Form1()
         {
             InitializeComponent();
+
+            // Initialisation du logger
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            _logger = loggerFactory.CreateLogger<Form1>();
+
+            // Initialisation de l'agent MQTT
+            string broker = "broker.hivemq.com"; // Adresse du broker MQTT
+            _agent = new Agent(loggerFactory, broker, OnMessageReceived);
+            _agent.Start();
+            this.Text = $@"House {_agent.NodeId}";
+
+            Console.WriteLine("Agent MQTT démarré.");
+        }
+
+        private void OnMessageReceived(Envelope envelope)
+        {
+      
+            Console.WriteLine($"Message reçu : {envelope.ToString()}");
+
+            switch (envelope.Type)
+            {
+                case MessageType.MEDIA_STATUS_REQUEST:
+                    HandleMediaStatusRequest();
+                    break;
+
+                case MessageType.MEDIA_STATUS:
+                    HandleMediaStatus(envelope.Message);
+                    break;
+
+                default:
+                    Console.WriteLine($"Type de message inconnu : {envelope.Type}");
+                    break;
+            }
+        }
+        private void HandleMediaStatusRequest()
+        {
+            Console.WriteLine("MEDIA_STATUS_REQUEST reçu. Envoi de la médiathèque...");
+            var mediathequeToSend = new Mediatheque
+            {
+                IsAvailable = mediatheque.IsAvailable,
+                DisplayName = mediatheque.DisplayName,
+                Medias = mediatheque.Medias
+            };
+
+            string payload = JsonSerializer.Serialize(mediathequeToSend);
+
+            var envelope = new Envelope(
+                senderId: _agent.NodeId,
+                type: MessageType.MEDIA_STATUS,
+                message: payload
+            );
+
+            _agent.Send(envelope);
+            Console.WriteLine("MEDIA_STATUS envoyé.");
+        }
+        private void HandleMediaStatus(string message)
+        {
+            Console.WriteLine("MEDIA_STATUS reçu.");
+
+            try
+            {
+                var mediathequeReceived = JsonSerializer.Deserialize<Mediatheque>(message);
+                if (mediathequeReceived != null)
+                {
+                    Console.WriteLine($"Médiathèque de {mediathequeReceived.DisplayName} reçue avec {mediathequeReceived.Medias.Count} médias.");
+
+                    // Mettre à jour l'interface utilisateur
+                    listViewRemoteMediatheques.Invoke(new MethodInvoker(() =>
+                    {
+                        var listViewItem = new ListViewItem(new[]
+                        {
+                            mediathequeReceived.DisplayName,
+                            mediathequeReceived.Medias.Count.ToString()
+                        });
+                        listViewRemoteMediatheques.Items.Add(listViewItem);
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la désérialisation de la médiathèque : {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -192,6 +285,26 @@ namespace BitRuisseau_william
             if (radioButton_Online.Checked)
             {
                 mediatheque.IsAvailable = true;
+
+                var mediathequeToSend = new Mediatheque
+                {
+                    IsAvailable = mediatheque.IsAvailable,
+                    DisplayName = mediatheque.DisplayName,
+                    Medias = mediatheque.Medias
+                };
+
+                string payload = JsonSerializer.Serialize(mediathequeToSend);
+
+                Envelope envelope = new Envelope(
+                    senderId: _agent.NodeId,          // Identifiant unique de l'expéditeur
+                    type: MessageType.MEDIA_STATUS,  // Type de message
+                    message: payload                 // Données sérialisées
+                );
+
+                // Envoi de l'enveloppe via l'agent
+                _agent.Send(envelope);
+
+                Console.WriteLine("MEDIA_STATUS envoyé.");
             }
             else if (!radioButton_Online.Checked)
             {

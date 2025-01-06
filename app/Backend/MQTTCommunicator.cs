@@ -1,15 +1,17 @@
 ﻿﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using Backend.Protocol;
 using MQTTnet;
 using MQTTnet.Protocol;
+
 
 namespace Backend;
 
 public class MqttCommunicator : ICommunicator
 {
-    private const string DefaultTopic = "powercher";
+    private const string DefaultTopic = "media/player";
     private readonly string _brokerIp;
     private IMqttClient _mqttClient;
     private readonly ILogger _logger;
@@ -134,4 +136,5 @@ public class MqttCommunicator : ICommunicator
     {
         _mqttClient.DisconnectAsync();
     }
+   
 }
