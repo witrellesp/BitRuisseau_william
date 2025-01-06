@@ -1,0 +1,3 @@
+consignes
+ajouter l'autoevaluation a la release du dépôt Bitruisseau
+revoir le cdc
