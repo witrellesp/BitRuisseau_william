@@ -39,6 +39,7 @@
             txtConsole = new RichTextBox();
             Online = new CheckBox();
             updateMediaplayers = new Button();
+            download_media = new Button();
             SuspendLayout();
             // 
             // title
@@ -122,6 +123,7 @@
             listViewRemoteMediatheques.Size = new Size(121, 328);
             listViewRemoteMediatheques.TabIndex = 10;
             listViewRemoteMediatheques.UseCompatibleStateImageBehavior = false;
+            listViewRemoteMediatheques.SelectedIndexChanged += listViewRemoteMediatheques_SelectedIndexChanged_1;
             // 
             // txtConsole
             // 
@@ -151,12 +153,23 @@
             updateMediaplayers.Text = "Mettre à jour";
             updateMediaplayers.UseVisualStyleBackColor = true;
             // 
+            // download_media
+            // 
+            download_media.Location = new Point(679, 52);
+            download_media.Name = "download_media";
+            download_media.Size = new Size(121, 23);
+            download_media.TabIndex = 14;
+            download_media.Text = "Télécharger media";
+            download_media.UseVisualStyleBackColor = true;
+            download_media.Click += download_media_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(820, 450);
+            Controls.Add(download_media);
             Controls.Add(updateMediaplayers);
             Controls.Add(Online);
             Controls.Add(txtConsole);
@@ -180,12 +193,13 @@
         private Button AddTitle;
         private Button Network;
         private Button DropTitle;
-        private ListView listView_myFiles;
+        public ListView listView_myFiles;
         private Button playFile;
         private Button stopFile;
-        private ListView listViewRemoteMediatheques;
+        public ListView listViewRemoteMediatheques;
         private RichTextBox txtConsole;
         private CheckBox Online;
         private Button updateMediaplayers;
+        private Button download_media;
     }
 }

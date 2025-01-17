@@ -15,7 +15,7 @@ namespace BitRuisseau_william
         WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
         private bool isPlaying = false; // Indique si le lecteur est en train de lire
 
-        private Dictionary<Media, string> mediaPaths = new Dictionary<Media, string>();
+        public Dictionary<Media, string> mediaPaths = new Dictionary<Media, string>();
 
         private Dictionary<string, Mediatheque> receivedMediatheques = new Dictionary<string, Mediatheque>();
 
@@ -25,10 +25,11 @@ namespace BitRuisseau_william
         private readonly ILogger _logger;
 
 
-        private Mediatheque mediatheque;
+        public Mediatheque mediatheque;
+        private readonly IFileDialogService _fileDialogService;
 
-
-        public Form1()
+        //public Form1() // Commenté pour lancer les tests unitaires
+        public Form1(IFileDialogService fileDialogService)
         {
             InitializeComponent();
 
@@ -62,7 +63,7 @@ namespace BitRuisseau_william
 
             // Envoi de la requête MEDIA_STATUS_REQUEST après initialisation
             SendMediaStatusRequest();
-
+            _fileDialogService = fileDialogService;
         }
         /// <summary>
         /// Envoie un message MEDIA_STATUS_REQUEST aux autres nœuds du réseau.
@@ -185,7 +186,7 @@ namespace BitRuisseau_william
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void AddTitle_Click(object sender, EventArgs e)
+        public void AddTitle_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -193,12 +194,11 @@ namespace BitRuisseau_william
                 Filter = "Fichiers MP3|*.mp3|Fichiers MP4|*.mp4|Fichiers MOV|*.mov|Fichiers GIF|*.gif|Fichiers PNG|*.png|Fichiers JPEG|*.jpeg|Fichiers JPG|*.jpg|Fichiers WAV|*.wav"
             };
 
-
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            //if(openFileDialog.ShowDialog() == DialogResult.OK) //Commenté pour lancer test unitaires
+            if (_fileDialogService.ShowDialog())
             {
-
-                string[] selectedFiles = openFileDialog.FileNames;
+                string[] selectedFiles = _fileDialogService.FileNames;
+                //string[] selectedFiles = openFileDialog.FileNames // Commenté pour lancer test unitaires
 
                 foreach (var file in selectedFiles)
                 {
@@ -382,6 +382,24 @@ namespace BitRuisseau_william
         private void Network_Click(object sender, EventArgs e)
         {
 
+
+        }
+        /// <summary>
+        /// TODO : Afficher les medias disponibles dans les médiatheques disponibles
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listViewRemoteMediatheques_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// TODO : Télécharger les médias des médiathèques disponibles
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void download_media_Click(object sender, EventArgs e)
+        {
 
         }
     }
